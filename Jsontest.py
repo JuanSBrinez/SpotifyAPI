@@ -67,7 +67,7 @@ def dic_creation(d):
 
 def table_creation(Dic):
     pf = pd.DataFrame.from_dict(Dic, orient='index',
-                              columns=['Name', 'Release_Date'])
+                                columns=['Name', 'Release_Date'])
 
     engine = create_engine('mysql://root:codio@localhost/FirstAPI')
 
