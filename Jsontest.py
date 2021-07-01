@@ -74,11 +74,15 @@ def table_creation(Dic):
     pf.to_sql('albums_data', con=engine, if_exists='replace', index=False)
 
 
-client = client_info()
-response_data = convert_json_1(client)
-access_token = get_access_token(response_data)
-header = find_header(access_token)
-url = create_url(header)
-json_url = convert_json_2(url)
-dictionary = dic_creation(json_url)
-table_creation(dictionary)
+def main():
+    client = client_info()
+    response_data = convert_json_1(client)
+    access_token = get_access_token(response_data)
+    header = find_header(access_token)
+    url = create_url(header)
+    json_url = convert_json_2(url)
+    dictionary = dic_creation(json_url)
+    table_creation(dictionary)
+
+
+main()
