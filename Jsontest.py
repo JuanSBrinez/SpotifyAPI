@@ -31,8 +31,8 @@ artist_id = '36QJpDe2go2KgaRleHCDTp'
 # artist_id = '2CIMQHirSU0MQqyYHq0eOx?si=FMm2w-AgQ3OIWbq0WOmo2A&dl_branch=1'
 
 r = requests.get(BASE_URL + 'artists/' + artist_id +
-                 '/albums/', headers=headers, 
-                 params={'include_groups': 'album', 'limit' : 10})
+                 '/albums/', headers=headers,
+                 params={'include_groups': 'album', 'limit': 10})
 d = r.json()
 # print(d)
 
@@ -43,7 +43,8 @@ for album in d['items']:
 
 # print(Dic)
 
-pf = pd.DataFrame.from_dict(Dic, orient='index', columns=['Name', 'Release_Date'])
+pf = pd.DataFrame.from_dict(Dic, orient='index',
+                            columns=['Name', 'Release_Date'])
 
 engine = create_engine('mysql://root:codio@localhost/FirstAPI')
 
