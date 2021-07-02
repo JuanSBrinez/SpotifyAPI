@@ -106,15 +106,16 @@ def table_creation(Dic, engine):
     return pf
 
     #os.system('mysql -u root -pcodio - e "UPDATE albums_data SET Release_Date = "2007-11-12" WHERE Name = "Mothership (Remastered)";"')
-    #os.system('mysql -u root -pcodio -e "ALTER TABLE albums_data CHANGE Release_Date Release_Date datetime;"')
+    os.system('mysql -u root -pcodio - e "UPDATE albums_data SET Release_Date = 2007-11-12 WHERE Name = Mothership (Remastered);"')
+    os.system('mysql -u root -pcodio -e "ALTER TABLE albums_data CHANGE Release_Date Release_Date datetime;"')
  
     
 def save_table_to_file():
-    os.system('mysqldump -u root -pcodio FirstAPI > FirstSavedDatabase.sql')
-    
+    os.system('mysqldump -u root -pcodio FirstAPI > SpotifyAPI/FirstSavedDatabase.sql')
+  
 
 def load_table_from_file(header, engine, update=False):
-    os.system('mysql -u root -pcodio FirstAPI < FirstSavedDatabase.sql') 
+    os.system('mysql -u root -pcodio FirstAPI < SpotifyAPI/FirstSavedDatabase.sql') 
     df = pd.read_sql_table('albums_data', con=engine)
     if update:
         return load_new_data(df, header)
@@ -122,20 +123,13 @@ def load_table_from_file(header, engine, update=False):
         return df
   
 
-def load_new_data(dataframe, header):   # hacer un foor loop que compare dos diccionarios.
-    #get the newest story in old dataset
-    #dataframe.sort_values(by='Story_ID', inplace=True, ascending=False)
-    newestStorySaved = dataframe.iloc[0,0]
-    
+def load_new_data(dataframe, header):
+      
     #get most recent post ID from API
     response = create_url()
     mostRecent = convert_json_2(response, header)
     new_dic = dic_creation(mostRecent)
     
-    #grab data from newestStorySaved to mostRecent from API
-    #dataframe = getDataFromAPI(dataframe, int(newestStorySaved), int(mostRecent)-1)
-      
-    #dataframe.sort_values(by='Story_ID', inplace=True, ascending=False)
     return new_dic
   
 
