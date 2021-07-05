@@ -6,7 +6,7 @@ import sqlalchemy
 from sqlalchemy import create_engine
 import os
 
-Dic = {}
+#Dic = {}
 
 
 def client_info():
@@ -39,22 +39,6 @@ def find_header(access_token):
         'Authorization': 'Bearer {token}'.format(token=access_token)
     }
     return headers
-
-
-#def create_url(headers):
-#    BASE_URL = 'https://api.spotify.com/v1/'
-#    artist_id = '36QJpDe2go2KgaRleHCDTp'
-#    
-#    r = requests.get(BASE_URL + 'artists/' + artist_id +
-#                     '/albums/', headers=headers,
-#                     params={'include_groups': 'album', 'limit': 10})
-#    return r
-  
-  
-#def convert_json_2(r):
-#    d = r.json()
-    # print(d)
-#    return d
   
 
 def create_url():
@@ -63,14 +47,8 @@ def create_url():
     
     link = (BASE_URL + 'artists/' + artist_id + '/albums/')
     
-    #r = requests.get(BASE_URL + 'artists/' + artist_id +
-    #                 '/albums/', headers=headers,
-    #                 params={'include_groups': 'album', 'limit': 10})
-    #return r
     return link  
   
-  
-
 
 def convert_json_2(link, headers):
     r = requests.get(link, headers=headers, params={'include_groups': 'album', 'limit': 10})
@@ -80,7 +58,7 @@ def convert_json_2(link, headers):
 
 
 def dic_creation(d):
-    #Dic = {}
+    Dic = {}
     i = 0
     for album in d['items']:
         Dic[i] = album["name"], album["release_date"]
@@ -104,10 +82,6 @@ def table_creation(Dic, engine):
     pf.to_sql('albums_data', con=engine, if_exists='replace', index=False)
     
     return pf
-
-    #os.system('mysql -u root -pcodio - e "UPDATE albums_data SET Release_Date = "2007-11-12" WHERE Name = "Mothership (Remastered)";"')
-    os.system('mysql -u root -pcodio - e "UPDATE albums_data SET Release_Date = 2007-11-12 WHERE Name = Mothership (Remastered);"')
-    os.system('mysql -u root -pcodio -e "ALTER TABLE albums_data CHANGE Release_Date Release_Date datetime;"')
  
     
 def save_table_to_file():
@@ -124,8 +98,6 @@ def load_table_from_file(header, engine, update=False):
   
 
 def load_new_data(dataframe, header):
-      
-    #get most recent post ID from API
     response = create_url()
     mostRecent = convert_json_2(response, header)
     new_dic = dic_creation(mostRecent)
